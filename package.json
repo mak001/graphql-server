@@ -1,0 +1,74 @@
+{
+  "name": "locator",
+  "version": "0.0.1",
+  "description": "SilverStripe Locator Module. Show locations on a map. Search by geoposition.",
+  "main": "src/boot/index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.prod.js -p --progress",
+    "build:dev": "webpack --config webpack.config.dev.js --progress",
+    "watch": "webpack --config webpack.config.dev.js --progress --watch",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage",
+    "test:coverage:watch": "jest --coverage --watchAll",
+    "lint": "eslint webpack.config.dev.js webpack.config.prod.js src",
+    "start": "node ./dist/main.js"
+  },
+  "keywords": [],
+  "author": "Dynamic <dev@dynamicagency.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "faker": "^4.1.0",
+    "graphiql": "^0.11.5",
+    "graphql": "^0.11.7",
+    "graphql-date": "^1.0.3",
+    "mysql2": "^1.4.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "sequelize": "^4.15.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^21.0.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-import-resolver-node": "^0.3.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "jest": "^21.1.0",
+    "jest-cli": "^21.1.0",
+    "webpack": "^3.6.0"
+  },
+  "browserslist": "> 1%",
+  "jest": {
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/tests/"
+    ],
+    "collectCoverageFrom": [
+      "**/src/**/*.{js,jsx}"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react",
+      "stage-2"
+    ]
+  }
+}

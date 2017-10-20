@@ -1,0 +1,47 @@
+{
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ],
+        "moduleDirectory": [
+          "src",
+          "node_modules"
+        ]
+      }
+    }
+  },
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "react/prefer-stateless-function": "off",
+    "import/no-named-as-default": "off",
+    "max-len": [
+      2,
+      120,
+      {
+        "ignoreComments": true,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline",
+      {
+        "functions": "never"
+      }
+    ]
+  }
+}

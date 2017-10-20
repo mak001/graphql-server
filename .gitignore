@@ -1,0 +1,5 @@
+.env
+
+graphdoc/
+node_modules/
+.idea/
