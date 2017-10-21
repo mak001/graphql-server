@@ -2,24 +2,24 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 
-import * as People from './People';
+import * as Users from './Users';
 import * as Posts from './Posts';
 
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   description: 'Functions to create stuff',
   fields: () => ({
-    // Person mutations
-    addPerson: People.addPerson,
-    updatePerson: People.updatePerson,
-    removePerson: People.removePerson,
-    restorePerson: People.restorePerson,
+    // User mutations
+    register: Users.register,
+    updateUser: Users.update,
+    removeUser: Users.remove,
+    restoreUser: Users.restore,
 
     // Post mutations
-    addPost: Posts.addPost,
-    updatePost: Posts.updatePost,
-    removePost: Posts.removePost,
-    restorePost: Posts.restorePost,
+    addPost: Posts.add,
+    updatePost: Posts.update,
+    removePost: Posts.remove,
+    restorePost: Posts.restore,
   }),
 });
 

@@ -2,14 +2,14 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 
-import People from './People';
+import Users from './Users';
 import Posts from './Posts';
 
 const Query = new GraphQLObjectType({
   name: 'Query',
   description: 'This is a root query',
   fields: () => ({
-    people: People,
+    users: Users,
     posts: Posts,
   }),
 });

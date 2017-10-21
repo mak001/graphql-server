@@ -1,17 +1,17 @@
 import Faker from 'faker';
 
 import Connection from './Connection';
-import DBPerson from './model/DBPerson';
+import DBUser from './model/DBUser';
 import DBPost from './model/DBPost';
 
 // relations
-DBPerson.hasMany(DBPost);
-DBPost.belongsTo(DBPerson);
+DBUser.hasMany(DBPost);
+DBPost.belongsTo(DBUser);
 
 // fake data
 /*
 Connection.sync({ force: true }).then(() => {
-  new Array(10).fill(0).forEach(() => Person.create({
+  new Array(10).fill(0).forEach(() => User.create({
     firstName: Faker.name.firstName(),
     lastName: Faker.name.lastName(),
     email: Faker.internet.email(),
@@ -25,4 +25,4 @@ Connection.sync({ force: true }).then(() => {
 Connection.sync();
 
 export default Connection;
-export { DBPerson, DBPost };
+export { DBUser, DBPost };

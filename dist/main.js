@@ -8701,7 +8701,7 @@ function isValidLiteralValue(type, valueNode) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DBPost = exports.DBPerson = undefined;
+exports.DBPost = exports.DBUser = undefined;
 
 var _faker = __webpack_require__(218);
 
@@ -8711,9 +8711,9 @@ var _Connection = __webpack_require__(61);
 
 var _Connection2 = _interopRequireDefault(_Connection);
 
-var _DBPerson = __webpack_require__(1265);
+var _DBUser = __webpack_require__(1265);
 
-var _DBPerson2 = _interopRequireDefault(_DBPerson);
+var _DBUser2 = _interopRequireDefault(_DBUser);
 
 var _DBPost = __webpack_require__(1266);
 
@@ -8721,13 +8721,13 @@ var _DBPost2 = _interopRequireDefault(_DBPost);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_DBPerson2.default.hasMany(_DBPost2.default);
-_DBPost2.default.belongsTo(_DBPerson2.default);
+_DBUser2.default.hasMany(_DBPost2.default);
+_DBPost2.default.belongsTo(_DBUser2.default);
 
 _Connection2.default.sync();
 
 exports.default = _Connection2.default;
-exports.DBPerson = _DBPerson2.default;
+exports.DBUser = _DBUser2.default;
 exports.DBPost = _DBPost2.default;
 
 /***/ }),
@@ -12321,8 +12321,6 @@ var _sequelize2 = _interopRequireDefault(_sequelize);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log(process.env);
-
 var Connection = new _sequelize2.default(process.env.DB_NAME, process.env.DB_USER, process.env.PASSWORD, {
   dialect: process.env.DB_DIALECT || 'mysql',
   host: process.env.DB_HOST,
@@ -12363,65 +12361,65 @@ var _Post2 = _interopRequireDefault(_Post);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Person = new _graphql.GraphQLObjectType({
-  name: 'Person',
-  description: 'This represents a person',
+var User = new _graphql.GraphQLObjectType({
+  name: 'User',
+  description: 'This represents a user',
   fields: function fields() {
     return {
       id: {
         type: _graphql.GraphQLInt,
-        description: 'The id of the person',
-        resolve: function resolve(person) {
-          return person.id;
+        description: 'The id of the user',
+        resolve: function resolve(user) {
+          return user.id;
         }
       },
       firstName: {
         type: _graphql.GraphQLString,
-        description: 'The first name of the person',
-        resolve: function resolve(person) {
-          return person.firstName;
+        description: 'The first name of the user',
+        resolve: function resolve(user) {
+          return user.firstName;
         }
       },
       lastName: {
         type: _graphql.GraphQLString,
-        description: 'The last name of the person',
-        resolve: function resolve(person) {
-          return person.lastName;
+        description: 'The last name of the user',
+        resolve: function resolve(user) {
+          return user.lastName;
         }
       },
       fullName: {
         type: _graphql.GraphQLString,
-        description: 'The full name of the person',
-        resolve: function resolve(person) {
-          return person.firstName + ' ' + person.lastName;
+        description: 'The full name of the user',
+        resolve: function resolve(user) {
+          return user.firstName + ' ' + user.lastName;
         }
       },
       email: {
         type: _graphql.GraphQLString,
-        description: 'The email of the person',
-        resolve: function resolve(person) {
-          return person.email;
+        description: 'The email of the user',
+        resolve: function resolve(user) {
+          return user.email;
         }
       },
       createdAt: {
         type: _graphqlDate2.default,
-        description: 'The date and time the person was created',
-        resolve: function resolve(person) {
-          return person.createdAt;
+        description: 'The date and time the user was created',
+        resolve: function resolve(user) {
+          return user.createdAt;
         }
       },
       posts: {
         type: new _graphql.GraphQLList(_Post2.default),
-        description: 'All the posts related to this person',
-        resolve: function resolve(person) {
-          return person.getPosts();
+        description: 'All the posts related to this user',
+        resolve: function resolve(user) {
+          return user.getPosts();
         }
       }
     };
   }
 });
 
-exports.default = Person;
+exports.default = User;
 
 /***/ }),
 /* 64 */
@@ -12440,9 +12438,9 @@ var _graphqlDate = __webpack_require__(125);
 
 var _graphqlDate2 = _interopRequireDefault(_graphqlDate);
 
-var _Person = __webpack_require__(63);
+var _User = __webpack_require__(63);
 
-var _Person2 = _interopRequireDefault(_Person);
+var _User2 = _interopRequireDefault(_User);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12480,10 +12478,10 @@ var Post = new _graphql.GraphQLObjectType({
         }
       },
       person: {
-        type: _Person2.default,
+        type: _User2.default,
         description: 'The person who created the post',
         resolve: function resolve(post) {
-          return post.getPerson();
+          return post.getUser();
         }
       }
     };
@@ -35025,7 +35023,9 @@ var _dotenv2 = _interopRequireDefault(_dotenv);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_dotenv2.default.config();
+_dotenv2.default.config({
+  silent: true
+});
 
 /***/ }),
 /* 214 */
@@ -35151,9 +35151,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _graphql = __webpack_require__(6);
 
-var _People = __webpack_require__(217);
+var _Users = __webpack_require__(217);
 
-var _People2 = _interopRequireDefault(_People);
+var _Users2 = _interopRequireDefault(_Users);
 
 var _Posts = __webpack_require__(1271);
 
@@ -35166,7 +35166,7 @@ var Query = new _graphql.GraphQLObjectType({
   description: 'This is a root query',
   fields: function fields() {
     return {
-      people: _People2.default,
+      users: _Users2.default,
       posts: _Posts2.default
     };
   }
@@ -35191,31 +35191,31 @@ var _database = __webpack_require__(42);
 
 var _database2 = _interopRequireDefault(_database);
 
-var _Person = __webpack_require__(63);
+var _User = __webpack_require__(63);
 
-var _Person2 = _interopRequireDefault(_Person);
+var _User2 = _interopRequireDefault(_User);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var People = {
-  type: new _graphql.GraphQLList(_Person2.default),
-  description: 'Gets a list of people',
+var Users = {
+  type: new _graphql.GraphQLList(_User2.default),
+  description: 'Gets a list of users',
   args: {
     id: {
-      description: 'The id of the person to get',
+      description: 'The id of the user to get',
       type: _graphql.GraphQLInt
     },
     email: {
-      description: 'The email of the person to get',
+      description: 'The email of the user to get',
       type: _graphql.GraphQLString
     }
   },
   resolve: function resolve(root, args) {
-    return _database2.default.models.person.findAll({ where: args });
+    return _database2.default.models.user.findAll({ where: args });
   }
 };
 
-exports.default = People;
+exports.default = Users;
 
 /***/ }),
 /* 218 */
@@ -124186,7 +124186,7 @@ var _Connection2 = _interopRequireDefault(_Connection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Person = _Connection2.default.define('person', {
+var User = _Connection2.default.define('user', {
   firstName: {
     type: _sequelize2.default.DataTypes.STRING,
     allowNull: false
@@ -124201,10 +124201,14 @@ var Person = _Connection2.default.define('person', {
     validate: {
       isEmail: true
     }
+  },
+  password: {
+    type: _sequelize2.default.DataTypes.STRING,
+    allowNull: false
   }
 });
 
-exports.default = Person;
+exports.default = User;
 
 /***/ }),
 /* 1266 */
@@ -124452,7 +124456,7 @@ var Posts = {
     return _database2.default.models.post.findAll({
       where: args,
       include: [{
-        model: _database.DBPerson,
+        model: _database.DBUser,
 
         where: {
           deletedAt: null
@@ -124477,9 +124481,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _graphql = __webpack_require__(6);
 
-var _People = __webpack_require__(1273);
+var _Users = __webpack_require__(1273);
 
-var People = _interopRequireWildcard(_People);
+var Users = _interopRequireWildcard(_Users);
 
 var _Posts = __webpack_require__(1274);
 
@@ -124492,15 +124496,15 @@ var Mutation = new _graphql.GraphQLObjectType({
   description: 'Functions to create stuff',
   fields: function fields() {
     return {
-      addPerson: People.addPerson,
-      updatePerson: People.updatePerson,
-      removePerson: People.removePerson,
-      restorePerson: People.restorePerson,
+      register: Users.register,
+      updateUser: Users.update,
+      removeUser: Users.remove,
+      restoreUser: Users.restore,
 
-      addPost: Posts.addPost,
-      updatePost: Posts.updatePost,
-      removePost: Posts.removePost,
-      restorePost: Posts.restorePost
+      addPost: Posts.add,
+      updatePost: Posts.update,
+      removePost: Posts.remove,
+      restorePost: Posts.restore
     };
   }
 });
@@ -124517,7 +124521,7 @@ exports.default = Mutation;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.restorePerson = exports.removePerson = exports.updatePerson = exports.addPerson = undefined;
+exports.register = exports.restore = exports.remove = exports.update = undefined;
 
 var _graphql = __webpack_require__(6);
 
@@ -124525,104 +124529,114 @@ var _database = __webpack_require__(42);
 
 var _database2 = _interopRequireDefault(_database);
 
-var _Person = __webpack_require__(63);
+var _User = __webpack_require__(63);
 
-var _Person2 = _interopRequireDefault(_Person);
+var _User2 = _interopRequireDefault(_User);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var addPerson = {
-  type: _Person2.default,
-  description: 'Adds a new person',
-  args: {
-    firstName: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
-      description: 'The first name of the person to create'
-    },
-    lastName: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
-      description: 'The last name of the person to create'
-    },
-    email: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
-      description: 'The email of the person to create'
-    }
-  },
-  resolve: function resolve(_, args) {
-    return _database2.default.models.person.create({
-      firstName: args.firstName,
-      lastName: args.lastName,
-      email: args.email.toLowerCase()
-    });
-  }
-};
-
-var updatePerson = {
-  type: _Person2.default,
-  description: 'Updates person with the given id',
+var update = {
+  type: _User2.default,
+  description: 'Updates user with the given id',
   args: {
     id: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
-      description: 'The id of the person to update'
+      description: 'The id of the user to update'
     },
     firstName: {
       type: _graphql.GraphQLString,
-      description: 'The new first name of the person'
+      description: 'The new first name of the user'
     },
     lastName: {
       type: _graphql.GraphQLString,
-      description: 'The new last name of the person'
+      description: 'The new last name of the user'
     },
     email: {
       type: _graphql.GraphQLString,
-      description: 'The new email of the person'
+      description: 'The new email of the user'
     }
   },
   resolve: function resolve(_, args) {
-    return _database.DBPerson.findById(args.id).then(function (person) {
-      return person.update(args);
+    return _database.DBUser.findById(args.id).then(function (user) {
+      return user.update(args);
     });
   }
 };
 
-var removePerson = {
-  type: _Person2.default,
-  description: 'Removes/deletes person with the given id',
+var remove = {
+  type: _User2.default,
+  description: 'Removes/deletes user with the given id',
   args: {
     id: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
-      description: 'The id of the person to remove/delete'
+      description: 'The id of the user to remove/delete'
     }
   },
   resolve: function resolve(_, args) {
-    return _database2.default.models.person.destroy({ where: args }).then(function () {
-      return _database.DBPerson.findById(args.id, { paranoid: false });
+    return _database2.default.models.user.destroy({ where: args }).then(function () {
+      return _database.DBUser.findById(args.id, { paranoid: false });
     });
   }
 };
 
-var restorePerson = {
-  type: _Person2.default,
-  description: 'Restores a deleted person with the given id',
+var restore = {
+  type: _User2.default,
+  description: 'Restores a deleted user with the given id',
   args: {
     id: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
-      description: 'The id of the person to restore'
+      description: 'The id of the user to restore'
     }
   },
   resolve: function resolve(_, args) {
-    return _database2.default.models.person.restore({ where: args }).then(function () {
-      return _database.DBPerson.findById(args.id);
+    return _database2.default.models.user.restore({ where: args }).then(function () {
+      return _database.DBUser.findById(args.id);
     }, function () {
       return null;
     });
   }
 };
 
-exports.addPerson = addPerson;
-exports.updatePerson = updatePerson;
-exports.removePerson = removePerson;
-exports.restorePerson = restorePerson;
+var register = {
+  type: _User2.default,
+  description: 'Register a user',
+  args: {
+    firstName: {
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      description: 'The first name of the user to create'
+    },
+    lastName: {
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      description: 'The last name of the user to create'
+    },
+    email: {
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      description: 'The email of the user to create'
+    },
+    password: {
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      description: 'The password of the user'
+    }
+  },
+  resolve: function resolve(_, _ref) {
+    var firstName = _ref.firstName,
+        lastName = _ref.lastName,
+        email = _ref.email,
+        password = _ref.password;
+    return _database2.default.models.user.create({
+      firstName: firstName,
+      lastName: lastName,
+      email: email.toLowerCase(),
+      password: password
+    });
+  }
+
+};
+
+exports.update = update;
+exports.remove = remove;
+exports.restore = restore;
+exports.register = register;
 
 /***/ }),
 /* 1274 */
@@ -124634,7 +124648,7 @@ exports.restorePerson = restorePerson;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.restorePost = exports.removePost = exports.updatePost = exports.addPost = undefined;
+exports.restore = exports.remove = exports.update = exports.add = undefined;
 
 var _graphql = __webpack_require__(6);
 
@@ -124648,7 +124662,7 @@ var _Post2 = _interopRequireDefault(_Post);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var addPost = {
+var add = {
   type: _Post2.default,
   description: 'Adds a new post',
   args: {
@@ -124666,13 +124680,13 @@ var addPost = {
     }
   },
   resolve: function resolve(_, args) {
-    return _database.DBPerson.findById(args.personId).then(function (person) {
-      return person.createPost(args);
+    return _database.DBUser.findById(args.personId).then(function (user) {
+      return user.createPost(args);
     });
   }
 };
 
-var updatePost = {
+var update = {
   type: _Post2.default,
   description: 'Updates post with the given id',
   args: {
@@ -124696,7 +124710,7 @@ var updatePost = {
   }
 };
 
-var removePost = {
+var remove = {
   type: _Post2.default,
   description: 'Removes/deletes post with the given id',
   args: {
@@ -124712,7 +124726,7 @@ var removePost = {
   }
 };
 
-var restorePost = {
+var restore = {
   type: _Post2.default,
   description: 'Restores a deleted post with the given id',
   args: {
@@ -124730,10 +124744,10 @@ var restorePost = {
   }
 };
 
-exports.addPost = addPost;
-exports.updatePost = updatePost;
-exports.removePost = removePost;
-exports.restorePost = restorePost;
+exports.add = add;
+exports.update = update;
+exports.remove = remove;
+exports.restore = restore;
 
 /***/ })
 /******/ ]);

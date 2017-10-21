@@ -4,10 +4,10 @@ import {
   GraphQLNonNull,
 } from 'graphql';
 
-import Db, { DBPost, DBPerson } from '../../database';
+import Db, { DBPost, DBUser } from '../../database';
 import Post from '../model/Post';
 
-const addPost = {
+const add = {
   type: Post,
   description: 'Adds a new post',
   args: {
@@ -24,11 +24,11 @@ const addPost = {
       description: 'The content of the post',
     },
   },
-  resolve: (_, args) => DBPerson.findById(args.personId)
-    .then(person => person.createPost(args)),
+  resolve: (_, args) => DBUser.findById(args.personId)
+    .then(user => user.createPost(args)),
 };
 
-const updatePost = {
+const update = {
   type: Post,
   description: 'Updates post with the given id',
   args: {
@@ -49,7 +49,7 @@ const updatePost = {
     .then(post => post.update(args)),
 };
 
-const removePost = {
+const remove = {
   type: Post,
   description: 'Removes/deletes post with the given id',
   args: {
@@ -62,7 +62,7 @@ const removePost = {
     .then(() => DBPost.findById(args.id, { paranoid: false })),
 };
 
-const restorePost = {
+const restore = {
   type: Post,
   description: 'Restores a deleted post with the given id',
   args: {
@@ -75,4 +75,4 @@ const restorePost = {
     .then(() => DBPost.findById(args.id), () => null),
 };
 
-export { addPost, updatePost, removePost, restorePost };
+export { add, update, remove, restore };

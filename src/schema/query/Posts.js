@@ -2,7 +2,7 @@ import {
   GraphQLList,
 } from 'graphql';
 
-import Db, { DBPerson } from '../../database';
+import Db, { DBUser } from '../../database';
 import Post from '../model/Post';
 
 const Posts = {
@@ -11,7 +11,7 @@ const Posts = {
   resolve: (root, args) => Db.models.post.findAll({
     where: args,
     include: [{
-      model: DBPerson,
+      model: DBUser,
       // this is needed because deleted people return without it
       where: {
         deletedAt: null,

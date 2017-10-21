@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 
 import Connection from '../Connection';
 
-const Person = Connection.define('person', {
+const User = Connection.define('user', {
   firstName: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
@@ -18,6 +18,10 @@ const Person = Connection.define('person', {
       isEmail: true,
     },
   },
+  password: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
-export default Person;
+export default User;

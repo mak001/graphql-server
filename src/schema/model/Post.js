@@ -5,7 +5,7 @@ import {
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
-import Person from './Person';
+import User from './User';
 
 const Post = new GraphQLObjectType({
   name: 'Post',
@@ -32,9 +32,9 @@ const Post = new GraphQLObjectType({
       resolve: post => post.createdAt,
     },
     person: {
-      type: Person,
+      type: User,
       description: 'The person who created the post',
-      resolve: post => post.getPerson(),
+      resolve: post => post.getUser(),
     },
   }),
 });
