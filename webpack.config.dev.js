@@ -38,7 +38,7 @@ module.exports = {
             'env',
             'react',
           ],
-          plugins: ['transform-object-rest-spread'],
+          plugins: ['transform-object-rest-spread', 'transform-runtime'],
           comments: false,
           cacheDirectory: true,
         },

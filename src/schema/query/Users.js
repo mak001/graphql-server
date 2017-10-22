@@ -20,7 +20,10 @@ const Users = {
       type: GraphQLString,
     },
   },
-  resolve: (root, args) => Db.models.user.findAll({ where: args }),
+  resolve: (root, args, { user }) => {
+    console.log(user);
+    return Db.models.user.findAll({ where: args });
+  },
 };
 
 export default Users;

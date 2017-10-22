@@ -3,6 +3,8 @@ import {
   GraphQLInt,
   GraphQLNonNull,
 } from 'graphql';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 import Db, { DBUser } from '../../database';
 import User from '../model/User';
@@ -79,17 +81,50 @@ const register = {
       description: 'The password of the user',
     },
   },
-  resolve: (_, {
-    firstName, lastName, email, password,
-  }) =>
-    // password = password;
-    Db.models.user.create({
-      firstName,
-      lastName,
-      email: email.toLowerCase(),
-      password,
-    })
-  ,
+  resolve: async (_, args) => {
+    const user = args;
+    user.password = await bcrypt.hash(user.password, 12);
+    user.email = user.email.toLowerCase();
+    return Db.models.user.create(user);
+  },
 };
 
-export { update, remove, restore, register };
+const login = {
+  type: GraphQLString,
+  args: {
+    email: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The email of the user to login',
+    },
+    password: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The password of the user to login',
+    },
+  },
+  resolve: async (_, args, { SECRET }) => {
+    const user = await Db.models.user.findOne({ where: { email: args.email } });
+    if (!user) {
+      throw new Error('No User with that email');
+    }
+
+    const valid = await bcrypt.compare(args.password, user.password);
+    if (!valid) {
+      throw new Error('Incorrect password');
+    }
+
+    return jwt.sign(
+      {
+        user: {
+          id: user.id,
+          email: user.email,
+        },
+      },
+      SECRET,
+      {
+        expiresIn: '1y',
+      }
+    );
+  },
+};
+
+export { update, remove, restore, register, login };

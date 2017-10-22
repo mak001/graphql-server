@@ -11,6 +11,7 @@ const Mutation = new GraphQLObjectType({
   fields: () => ({
     // User mutations
     register: Users.register,
+    login: Users.login,
     updateUser: Users.update,
     removeUser: Users.remove,
     restoreUser: Users.restore,
