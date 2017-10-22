@@ -21546,7 +21546,7 @@ var addUser = function () {
             _context.prev = 9;
             _context.t0 = _context['catch'](1);
 
-            console.log(_context.t0);
+            req.user = null;
 
           case 12:
             req.next();
@@ -40715,8 +40715,6 @@ var _graphql = __webpack_require__(8);
 
 var _Users = __webpack_require__(319);
 
-var _Users2 = _interopRequireDefault(_Users);
-
 var _Posts = __webpack_require__(1373);
 
 var _Posts2 = _interopRequireDefault(_Posts);
@@ -40728,7 +40726,8 @@ var Query = new _graphql.GraphQLObjectType({
   description: 'This is a root query',
   fields: function fields() {
     return {
-      users: _Users2.default,
+      users: _Users.Users,
+      me: _Users.Me,
       posts: _Posts2.default
     };
   }
@@ -40746,6 +40745,7 @@ exports.default = Query;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Me = exports.Users = undefined;
 
 var _graphql = __webpack_require__(8);
 
@@ -40772,15 +40772,26 @@ var Users = {
       type: _graphql.GraphQLString
     }
   },
-  resolve: function resolve(root, args, _ref) {
-    var user = _ref.user;
-
-    console.log(user);
+  resolve: function resolve(root, args) {
     return _database2.default.models.user.findAll({ where: args });
   }
 };
 
-exports.default = Users;
+var Me = {
+  type: _User2.default,
+  description: 'Gets the current user',
+  resolve: function resolve(_, args, _ref) {
+    var user = _ref.user;
+
+    if (!user) {
+      return null;
+    }
+    return _database.DBUser.findById(user.id);
+  }
+};
+
+exports.Users = Users;
+exports.Me = Me;
 
 /***/ }),
 /* 320 */

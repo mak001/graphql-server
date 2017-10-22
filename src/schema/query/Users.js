@@ -4,7 +4,7 @@ import {
   GraphQLList,
 } from 'graphql';
 
-import Db from '../../database';
+import Db, { DBUser } from '../../database';
 import User from '../model/User';
 
 const Users = {
@@ -20,10 +20,18 @@ const Users = {
       type: GraphQLString,
     },
   },
-  resolve: (root, args, { user }) => {
-    console.log(user);
-    return Db.models.user.findAll({ where: args });
+  resolve: (root, args) => Db.models.user.findAll({ where: args }),
+};
+
+const Me = {
+  type: User,
+  description: 'Gets the current user',
+  resolve: (_, args, { user }) => {
+    if (!user) {
+      return null;
+    }
+    return DBUser.findById(user.id);
   },
 };
 
-export default Users;
+export { Users, Me };
