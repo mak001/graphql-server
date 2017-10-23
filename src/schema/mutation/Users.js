@@ -8,6 +8,8 @@ import jwt from 'jsonwebtoken';
 
 import Db, { DBUser } from '../../database';
 import User from '../model/User';
+import { pubsub } from '../subscription/index';
+import { USER_REGISTERED } from '../subscription/SubscriptionTypes';
 
 const update = {
   type: User,
@@ -85,7 +87,14 @@ const register = {
     const user = args;
     user.password = await bcrypt.hash(user.password, 12);
     user.email = user.email.toLowerCase();
-    return Db.models.user.create(user);
+    // create the user
+    const newUser = await Db.models.user.create(user);
+    // notify subscriptions
+    pubsub.publish(USER_REGISTERED, {
+      newUser,
+    });
+    // return the created user
+    return newUser;
   },
 };
 

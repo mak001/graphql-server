@@ -1,5 +1,8 @@
 import Express from 'express';
+import { createServer } from 'http';
 import GraphHTTP from 'express-graphql';
+import { execute, subscribe } from 'graphql';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import jwt from 'jsonwebtoken';
 
 // eslint-disable-next-line no-unused-vars
@@ -35,7 +38,15 @@ app.use('/graphql', GraphHTTP(req => ({
 
 app.use('/docs', Express.static('graphdoc'));
 
-app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
-});
-
+const server = createServer(app);
+server.listen(PORT, () => new SubscriptionServer(
+  {
+    execute,
+    subscribe,
+    schema: Schema,
+  },
+  {
+    server,
+    path: '/subscriptions',
+  }
+));
