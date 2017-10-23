@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 import Db, { DBUser } from '../../database';
 import User from '../model/User';
 import { pubsub } from '../subscription/index';
-import { USER_REGISTERED } from '../subscription/SubscriptionTypes';
+import { USER_REGISTERED, USER_LOGGED_IN } from '../subscription/SubscriptionTypes';
 
 const update = {
   type: User,
@@ -120,6 +120,10 @@ const login = {
     if (!valid) {
       throw new Error('Incorrect password');
     }
+
+    pubsub.publish(USER_LOGGED_IN, {
+      userLoggedIn: user,
+    });
 
     return jwt.sign(
       {

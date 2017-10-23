@@ -1,13 +1,6 @@
-import {
-  GraphQLInt,
-  GraphQLString,
-  GraphQLList,
-} from 'graphql';
-
-import Db, { DBUser } from '../../database';
 import User from '../model/User';
 import { pubsub } from './';
-import { USER_REGISTERED } from './SubscriptionTypes';
+import { USER_REGISTERED, USER_LOGGED_IN } from './SubscriptionTypes';
 
 const userRegistered = {
   type: User,
@@ -15,4 +8,10 @@ const userRegistered = {
   subscribe: () => pubsub.asyncIterator(USER_REGISTERED),
 };
 
-export { userRegistered };
+const userLoggedIn = {
+  type: User,
+  description: 'Updates when a user logs in',
+  subscribe: () => pubsub.asyncIterator(USER_LOGGED_IN),
+};
+
+export { userRegistered, userLoggedIn };
