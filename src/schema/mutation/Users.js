@@ -91,7 +91,7 @@ const register = {
     const newUser = await Db.models.user.create(user);
     // notify subscriptions
     pubsub.publish(USER_REGISTERED, {
-      newUser,
+      userRegistered: newUser,
     });
     // return the created user
     return newUser;

@@ -12,7 +12,7 @@ const Subscription = new GraphQLObjectType({
   name: 'Subscription',
   description: 'This is a root query',
   fields: () => ({
-    userAdded: Users.userRegistered,
+    userRegistered: Users.userRegistered,
   }),
 });
 
