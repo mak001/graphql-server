@@ -23,6 +23,11 @@ const add = {
     },
   },
   resolve: (_, args, { user }) => {
+    // checks if the current caller is not logged in
+    if (user === null) {
+      return null;
+    }
+    // if the user is logged in
     const post = DBUser.findById(user.id)
       .then(currentUser => currentUser.createPost(args));
     pubsub.publish(POST_CREATED, { postCreated: post });

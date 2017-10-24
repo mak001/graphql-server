@@ -141004,6 +141004,9 @@ var add = {
   resolve: function resolve(_, args, _ref) {
     var user = _ref.user;
 
+    if (user === null) {
+      return null;
+    }
     var post = _database.DBUser.findById(user.id).then(function (currentUser) {
       return currentUser.createPost(args);
     });
