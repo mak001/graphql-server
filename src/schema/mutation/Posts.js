@@ -4,6 +4,8 @@ import {
   GraphQLNonNull,
 } from 'graphql';
 
+import { pubsub } from '../subscription/index';
+import { POST_CREATED, POST_UPDATED } from '../subscription/SubscriptionTypes';
 import Db, { DBPost, DBUser } from '../../database';
 import Post from '../model/Post';
 
@@ -11,10 +13,6 @@ const add = {
   type: Post,
   description: 'Adds a new post',
   args: {
-    personId: {
-      type: new GraphQLNonNull(GraphQLInt),
-      description: 'The id of the person creating the post',
-    },
     title: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The title of the post',
@@ -24,8 +22,12 @@ const add = {
       description: 'The content of the post',
     },
   },
-  resolve: (_, args) => DBUser.findById(args.personId)
-    .then(user => user.createPost(args)),
+  resolve: (_, args, { user }) => {
+    const post = DBUser.findById(user.id)
+      .then(currentUser => currentUser.createPost(args));
+    pubsub.publish(POST_CREATED, { postCreated: post });
+    return post;
+  },
 };
 
 const update = {
@@ -45,8 +47,13 @@ const update = {
       description: 'The new content of the post',
     },
   },
-  resolve: (_, args) => DBPost.findById(args.id)
-    .then(post => post.update(args)),
+  resolve: (_, args) => {
+    const post = DBPost.findById(args.id)
+      .then(updatedPost => updatedPost.update(args));
+
+    pubsub.publish(POST_UPDATED, { postUpdated: post });
+    return post;
+  },
 };
 
 const remove = {
